@@ -1,0 +1,76 @@
+CREATE DATABASE banco_producao;
+USE banco_producao;
+
+CREATE TABLE maquinas
+(
+	id int unsigned not null auto_increment, -- Inteiro, sem sinal, não nulo, incrementado automaticamente
+    nome varchar(15) not null, -- Aceita até 15 caracteres, não nulo 
+    capacidade_diaria int unsigned not null default '0', -- No caso de uma entrada inválida, define como 0
+	PRIMARY KEY (id)
+);
+
+INSERT INTO maquinas (id, nome, capacidade_diaria)
+VALUES
+	(1, "Máquina 1", 20),
+    (2, "Máquina 2", 15),
+    (3, "Máquina 3", 25);
+
+CREATE TABLE bolos
+(
+	id int unsigned not null auto_increment,
+    tipo_de_bolo varchar(15) not null,
+    valor_unidade double not null default '0',
+    PRIMARY KEY (id)
+);
+
+INSERT INTO bolos (id, tipo_de_bolo, valor_unidade)
+VALUES
+	(1, "Laranja", 20.00),
+    (2, "Limão", 20.00),
+    (3, "Morango", 30.00),
+    (4, "Chocolate", 25.00);
+
+CREATE TABLE producao
+(
+	id int unsigned not null auto_increment,
+    id_maquina int unsigned not null,
+    id_bolo int unsigned not null,
+    data_producao date,
+    quantidade_produzida int unsigned not null default '0',
+    PRIMARY KEY (id, id_maquina, id_bolo),
+    CONSTRAINT fk_id_maquina FOREIGN KEY (id_maquina) REFERENCES maquinas (id),
+	CONSTRAINT fk_id_bolo FOREIGN KEY (id_bolo) REFERENCES bolos (id)
+);
+
+INSERT INTO producao (id, id_maquina, id_bolo, data_producao, quantidade_produzida)
+VALUES
+	(1, 1, 1, '2022-12-14', 7),
+    (2, 1, 2, '2022-12-14', 3),
+    (3, 1, 4, '2022-12-14', 8),
+    
+    (4, 2, 3, '2022-12-14', 1),
+    (5, 2, 2, '2022-12-14', 4),
+    (6, 2, 4, '2022-12-14', 5),
+    
+    (7, 3, 1, '2022-12-14', 6),
+    (8, 3, 2, '2022-12-14', 5),
+    (9, 3, 3, '2022-12-14', 12),
+    
+    (10, 1, 1, '2022-12-15', 8),
+    (11, 1, 4, '2022-12-15', 10),
+    
+    (12, 2, 2, '2022-12-15', 2),
+    (13, 2, 3, '2022-12-15', 1),
+    (14, 2, 4, '2022-12-15', 2),
+    
+    (15, 1, 1, '2022-12-16', 8),
+    (16, 1, 2, '2022-12-16', 1),
+    (17, 1, 4, '2022-12-16', 2),
+    
+    (18, 2, 3, '2022-12-16', 1),
+    (19, 2, 2, '2022-12-16', 4),
+    (20, 2, 4, '2022-12-16', 5),
+    
+    (21, 3, 1, '2022-12-16', 11),
+    (22, 3, 3, '2022-12-16', 6);
+    
